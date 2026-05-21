@@ -24,22 +24,22 @@ export default function Hero({ onBuyKey, onBuyAccount }) {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-          <span className="text-neutral-300">AUTOMATED BLOCKCHAIN VERIFICATION ACTIVE</span>
+          <span className="text-neutral-300">AUTOMATED BLOCKCHAIN VERIFICATION</span>
           <span className="text-neutral-500">|</span>
           <span className="text-emerald-400 flex items-center gap-1 font-bold">
-            ⚡ INSTANT KEYS
+            ⚡ INSTANT DELIVERY ACTIVE
           </span>
         </div>
         
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-[1.1] font-sans">
-          Official Minecraft <br/>
+          The Cheapest Official <br/>
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand via-sky-300 to-emerald-400">
-            Keys & Accounts
+            Minecraft Keys & Accounts
           </span>
         </h1>
         
         <p className="text-base sm:text-lg md:text-xl text-neutral-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-          Buy authentic, permanent Minecraft licenses instantly. Fully automated network verification drops your key in seconds.
+          Stop paying retail markup. Grab authentic, permanent full-access Minecraft credentials at the absolute lowest price online. Backed by a lifetime warranty with fully automated <strong className="text-brand font-extrabold">Instant Delivery</strong> in under 60 seconds.
         </p>
 
         {/* Call to Actions */}

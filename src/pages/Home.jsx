@@ -760,49 +760,42 @@ export default function Home() {
           <section className="max-w-5xl mx-auto px-6 py-20 relative z-10 border-t border-white/5 mt-12">
             <div className="text-center mb-16">
               <span className="text-xs font-extrabold text-brand uppercase tracking-widest bg-brand/10 border border-brand/20 px-3 py-1.5 rounded-full">
-                Unmatched Security
+                Value Proposition
               </span>
-              <h2 className="text-3xl font-extrabold text-white mt-4 tracking-tight">Why Gamers Trust CJMC</h2>
+              <h2 className="text-3xl font-extrabold text-white mt-4 tracking-tight">Why Choose CJMC</h2>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="p-6 rounded-2xl bg-dark-2/45 border border-white/5 hover:border-brand/20 transition-all group">
-                <div className="w-12 h-12 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-xl text-brand mb-5 group-hover:scale-110 transition-transform">
-                  ⚡
-                </div>
-                <h3 className="font-bold text-white mb-2">Automated Ledger Nodes</h3>
-                <p className="text-xs text-neutral-400 leading-relaxed">
-                  No support tickets or manual verification. Our validator nodes detect transactions instantly and issue codes in real-time.
-                </p>
-              </div>
-
+            <div className="grid sm:grid-cols-3 gap-6">
+              {/* Security */}
               <div className="p-6 rounded-2xl bg-dark-2/45 border border-white/5 hover:border-brand/20 transition-all group">
                 <div className="w-12 h-12 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-xl text-brand mb-5 group-hover:scale-110 transition-transform">
                   🛡️
                 </div>
-                <h3 className="font-bold text-white mb-2">100% Genuine Licenses</h3>
+                <h3 className="font-bold text-white mb-2">Fortified Security & Guarantee</h3>
                 <p className="text-xs text-neutral-400 leading-relaxed">
-                  All keys are genuine Microsoft retail licenses. Redeem directly at official pages, secure from revokes or expirations.
+                  Your purchase is fully protected. All items are 100% genuine Microsoft retail licenses, complete with a permanent lifetime warranty and cryptographic validation.
                 </p>
               </div>
 
+              {/* Price */}
               <div className="p-6 rounded-2xl bg-dark-2/45 border border-white/5 hover:border-brand/20 transition-all group">
                 <div className="w-12 h-12 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-xl text-brand mb-5 group-hover:scale-110 transition-transform">
-                  ♾️
+                  🏷️
                 </div>
-                <h3 className="font-bold text-white mb-2">Permanent Warranty</h3>
+                <h3 className="font-bold text-white mb-2">Unbeatable Wholesale Prices</h3>
                 <p className="text-xs text-neutral-400 leading-relaxed">
-                  We stand behind our assets. If your code or credentials ever experience an issue, we replace them immediately.
+                  We purchase digital packages in massive wholesale lots during liquidation events. With no credit card transaction fees, we pass direct savings of up to 60% straight to you.
                 </p>
               </div>
 
+              {/* Speed */}
               <div className="p-6 rounded-2xl bg-dark-2/45 border border-white/5 hover:border-brand/20 transition-all group">
                 <div className="w-12 h-12 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-xl text-brand mb-5 group-hover:scale-110 transition-transform">
-                  🌍
+                  ⚡
                 </div>
-                <h3 className="font-bold text-white mb-2">Global Activation</h3>
+                <h3 className="font-bold text-white mb-2">Automated Instant Delivery</h3>
                 <p className="text-xs text-neutral-400 leading-relaxed">
-                  Activate anywhere in the world. Our licenses are free of regional locks, VPN requirements, or complicated steps.
+                  No support queue delays or manual audits. Our automated mempool validator nodes sweep payments and decrypt your game codes to your screen in under 60 seconds.
                 </p>
               </div>
             </div>

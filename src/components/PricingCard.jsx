@@ -1,16 +1,30 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Button from './Button';
 
-export default function PricingCard({ title, price, features, isPopular, onBuy }) {
+export default function PricingCard({ title, price, features, isPopular, onAddToCart, onBuyNow }) {
+  const [quantity, setQuantity] = useState(1);
+
   // Sourced retail prices for comparison to highlight discounts
   const retailPrices = {
-    "Minecraft Key": "29.99",
-    "Minecraft Account": "24.99"
+    "Minecraft Key": 29.99,
+    "Minecraft Account": 24.99
   };
 
-  const discount = retailPrices[title] 
-    ? Math.round(((parseFloat(retailPrices[title]) - parseFloat(price)) / parseFloat(retailPrices[title])) * 100) 
-    : 30;
+  const basePriceNum = parseFloat(price);
+  const totalDisplayPrice = (basePriceNum * quantity).toFixed(2);
+  const baseRetailPrice = retailPrices[title] || 29.99;
+  const totalRetailPrice = (baseRetailPrice * quantity).toFixed(2);
+
+  const discount = Math.round(((baseRetailPrice - basePriceNum) / baseRetailPrice) * 100);
+
+  const handleIncrement = () => {
+    setQuantity((prev) => Math.min(prev + 1, 99));
+  };
+
+  const handleDecrement = () => {
+    setQuantity((prev) => Math.max(prev - 1, 1));
+  };
 
   return (
     <motion.div
@@ -41,13 +55,13 @@ export default function PricingCard({ title, price, features, isPopular, onBuy }
         <p className="text-xs text-neutral-500 mb-4">Official permanent access key</p>
         
         <div className="flex items-baseline gap-2">
-          <span className="text-4xl font-extrabold text-white tracking-tight">${price}</span>
-          <span className="text-neutral-500 text-sm font-medium line-through">${retailPrices[title] || "29.99"}</span>
-          <span className="text-neutral-400 text-xs font-semibold">one-time payment</span>
+          <span className="text-4xl font-extrabold text-white tracking-tight">${totalDisplayPrice}</span>
+          <span className="text-neutral-500 text-sm font-medium line-through">${totalRetailPrice}</span>
+          <span className="text-neutral-400 text-xs font-semibold">({quantity}x item{quantity > 1 ? 's' : ''})</span>
         </div>
       </div>
       
-      <ul className="flex-1 space-y-3.5 mb-8 relative z-10 border-t border-white/5 pt-6">
+      <ul className="flex-1 space-y-3.5 mb-6 relative z-10 border-t border-white/5 pt-6">
         {features.map((feature, i) => (
           <li key={i} className="flex items-start gap-3 text-sm text-neutral-300">
             <div className="w-5 h-5 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0 mt-0.5">
@@ -59,14 +73,45 @@ export default function PricingCard({ title, price, features, isPopular, onBuy }
           </li>
         ))}
       </ul>
+
+      {/* Step 1: Quantity Selector Row */}
+      <div className="mb-6 relative z-10">
+        <div className="text-[10px] font-extrabold tracking-widest text-neutral-500 uppercase mb-2">CHOOSE QUANTITY</div>
+        <div className="flex items-center justify-between bg-dark/50 border border-white/5 rounded-xl p-1 max-w-[150px]">
+          <button 
+            onClick={handleDecrement}
+            className="w-8 h-8 rounded-lg bg-neutral-900 border border-white/5 text-neutral-400 font-bold hover:text-white hover:bg-neutral-800 transition-colors flex items-center justify-center cursor-pointer"
+          >
+            －
+          </button>
+          <span className="text-sm font-extrabold text-white">{quantity}</span>
+          <button 
+            onClick={handleIncrement}
+            className="w-8 h-8 rounded-lg bg-neutral-900 border border-white/5 text-neutral-400 font-bold hover:text-white hover:bg-neutral-800 transition-colors flex items-center justify-center cursor-pointer"
+          >
+            ＋
+          </button>
+        </div>
+      </div>
       
-      <Button 
-        variant={isPopular ? 'glow' : 'secondary'} 
-        className="w-full relative z-10 py-3.5 font-bold tracking-wide"
-        onClick={onBuy}
-      >
-        Instant Crypto Checkout
-      </Button>
+      {/* Step 2: Stacked Cart Actions */}
+      <div className="space-y-2.5 relative z-10">
+        <Button 
+          variant={isPopular ? 'glow' : 'glow'} 
+          className="w-full py-3.5 font-extrabold tracking-wide"
+          style={!isPopular ? { backgroundColor: '#10b981', border: '1px solid rgba(52, 211, 153, 0.3)', boxShadow: '0 0 20px rgba(16, 185, 129, 0.3)' } : {}}
+          onClick={() => onBuyNow(quantity)}
+        >
+          ⚡ Buy Now
+        </Button>
+        <Button 
+          variant="secondary" 
+          className="w-full py-3.5 font-bold tracking-wide border-white/10 hover:border-neutral-500 transition-colors"
+          onClick={() => onAddToCart(quantity)}
+        >
+          🛒 Add to Cart
+        </Button>
+      </div>
     </motion.div>
   );
 }

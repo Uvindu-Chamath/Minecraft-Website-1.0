@@ -64,7 +64,7 @@ export default function Hero({ onBuyKey, onBuyAccount }) {
           <span className="hidden sm:inline text-neutral-700">•</span>
           <span className="flex items-center gap-1.5 animate-pulse">
             <span className="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> 
-            Only <strong className="text-neutral-300">14 keys</strong> remaining in stock
+            Only <strong className="text-neutral-300">223 keys</strong> remaining in stock
           </span>
         </div>
       </motion.div>

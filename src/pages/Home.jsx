@@ -623,7 +623,7 @@ export default function Home() {
 
       {/* Navbar */}
       <nav className="sticky top-0 w-full z-40 bg-dark/70 backdrop-blur-lg border-b border-white/5">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div 
             onClick={() => setCurrentView('store')} 
             className="font-extrabold text-xl tracking-tight flex items-center gap-2 cursor-pointer select-none"
@@ -632,31 +632,35 @@ export default function Home() {
             <span className="text-white">CJ<span className="text-brand">MC</span></span>
           </div>
           <div className="flex items-center gap-4 text-sm">
-            <button 
-              onClick={() => setCurrentView('store')}
-              className={`font-semibold transition-all cursor-pointer ${currentView === 'store' ? 'text-brand' : 'text-neutral-400 hover:text-white'}`}
-            >
-              Store
-            </button>
-            <button 
-              onClick={() => setCurrentView('terms')}
-              className={`font-semibold transition-all cursor-pointer ${currentView === 'terms' ? 'text-brand' : 'text-neutral-400 hover:text-white'}`}
-            >
-              Terms
-            </button>
-            <button 
-              onClick={() => setCurrentView('contact')}
-              className={`font-semibold transition-all cursor-pointer ${currentView === 'contact' ? 'text-brand' : 'text-neutral-400 hover:text-white'}`}
-            >
-              Support Desk
-            </button>
-            <a href="#faq" onClick={() => setCurrentView('store')} className="text-neutral-400 hover:text-white transition-colors font-semibold hidden sm:inline">
-              FAQ
-            </a>
-            <div className="h-4 w-px bg-white/10 hidden sm:inline" />
+            <div className="hidden md:flex items-center gap-4">
+              <button 
+                onClick={() => setCurrentView('store')}
+                className={`font-semibold transition-all cursor-pointer ${currentView === 'store' ? 'text-brand' : 'text-neutral-400 hover:text-white'}`}
+              >
+                Store
+              </button>
+              <button 
+                onClick={() => setCurrentView('terms')}
+                className={`font-semibold transition-all cursor-pointer ${currentView === 'terms' ? 'text-brand' : 'text-neutral-400 hover:text-white'}`}
+              >
+                Terms
+              </button>
+              <button 
+                onClick={() => setCurrentView('contact')}
+                className={`font-semibold transition-all cursor-pointer ${currentView === 'contact' ? 'text-brand' : 'text-neutral-400 hover:text-white'}`}
+              >
+                Support Desk
+              </button>
+              <a href="#faq" onClick={() => setCurrentView('store')} className="text-neutral-400 hover:text-white transition-colors font-semibold">
+                FAQ
+              </a>
+              <div className="h-4 w-px bg-white/10" />
+            </div>
+            
             <div className="flex items-center gap-1.5 text-emerald-400 font-semibold bg-emerald-500/10 border border-emerald-500/25 px-2.5 py-1 rounded-md text-xs">
               <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping" />
-              Gateways Secured
+              <span className="hidden sm:inline">Gateways Secured</span>
+              <span className="sm:hidden">Secured</span>
             </div>
 
             {/* Theme Toggle Button */}
@@ -716,8 +720,8 @@ export default function Home() {
           />
 
           {/* Pricing Cards Section */}
-          <section className="max-w-5xl mx-auto px-6 relative z-10 py-12">
-            <div className="text-center mb-16">
+          <section className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 py-10">
+            <div className="text-center mb-8">
               <h2 className="text-3xl md:text-4xl font-extrabold mb-4 tracking-tight">Transparent Direct Pricing</h2>
               <p className="text-neutral-400 max-w-xl mx-auto text-sm sm:text-base">
                 No merchant processing markups. Direct blockchain transfer enables absolute lowest wholesale rates.
@@ -757,51 +761,62 @@ export default function Home() {
           </section>
 
           {/* Why Choose Us & Trust Badges Section */}
-          <section className="max-w-5xl mx-auto px-6 py-20 relative z-10 border-t border-white/5 mt-12">
-            <div className="text-center mb-16">
+          <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12 relative z-10 border-t border-white/5 mt-6">
+            <div className="text-center mb-8">
               <span className="text-xs font-extrabold text-brand uppercase tracking-widest bg-brand/10 border border-brand/20 px-3 py-1.5 rounded-full">
                 Value Proposition
               </span>
-              <h2 className="text-3xl font-extrabold text-white mt-4 tracking-tight">Why Choose CJMC</h2>
+              <h2 className="text-3xl font-extrabold text-white mt-4 tracking-tight">Why Gamers Trust CJMC</h2>
             </div>
 
-            <div className="grid sm:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Security */}
-              <div className="p-6 rounded-2xl bg-dark-2/45 border border-white/5 hover:border-brand/20 transition-all group">
+              <div className="p-6 rounded-2xl glass-card border border-white/10 hover:border-brand/20 transition-all duration-300 hover:scale-[1.02] flex flex-col h-full group">
                 <div className="w-12 h-12 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-xl text-brand mb-5 group-hover:scale-110 transition-transform">
                   🛡️
                 </div>
-                <h3 className="font-bold text-white mb-2">Fortified Security & Guarantee</h3>
+                <h3 className="font-bold text-white mb-2 text-sm sm:text-base">100% Genuine Licenses</h3>
                 <p className="text-xs text-neutral-400 leading-relaxed">
-                  Your purchase is fully protected. All items are 100% genuine Microsoft retail licenses, complete with a permanent lifetime warranty and cryptographic validation.
+                  Every key and account is an authentic Microsoft retail license activation. Rest assured your Minecraft access is fully official.
                 </p>
               </div>
 
-              {/* Price */}
-              <div className="p-6 rounded-2xl bg-dark-2/45 border border-white/5 hover:border-brand/20 transition-all group">
+              {/* Warranty */}
+              <div className="p-6 rounded-2xl glass-card border border-white/10 hover:border-brand/20 transition-all duration-300 hover:scale-[1.02] flex flex-col h-full group">
                 <div className="w-12 h-12 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-xl text-brand mb-5 group-hover:scale-110 transition-transform">
-                  🏷️
+                  ♾️
                 </div>
-                <h3 className="font-bold text-white mb-2">Unbeatable Wholesale Prices</h3>
+                <h3 className="font-bold text-white mb-2 text-sm sm:text-base">Permanent Warranty</h3>
                 <p className="text-xs text-neutral-400 leading-relaxed">
-                  We purchase digital packages in massive wholesale lots during liquidation events. With no credit card transaction fees, we pass direct savings of up to 60% straight to you.
+                  Enjoy absolute peace of mind. Every purchase is backed by our lifetime warranty with instant replacements for any technical faults.
                 </p>
               </div>
 
               {/* Speed */}
-              <div className="p-6 rounded-2xl bg-dark-2/45 border border-white/5 hover:border-brand/20 transition-all group">
+              <div className="p-6 rounded-2xl glass-card border border-white/10 hover:border-brand/20 transition-all duration-300 hover:scale-[1.02] flex flex-col h-full group">
                 <div className="w-12 h-12 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-xl text-brand mb-5 group-hover:scale-110 transition-transform">
                   ⚡
                 </div>
-                <h3 className="font-bold text-white mb-2">Automated Instant Delivery</h3>
+                <h3 className="font-bold text-white mb-2 text-sm sm:text-base">Automated Ledger Nodes</h3>
                 <p className="text-xs text-neutral-400 leading-relaxed">
-                  No support queue delays or manual audits. Our automated mempool validator nodes sweep payments and decrypt your game codes to your screen in under 60 seconds.
+                  Our automated mempool nodes detect payments instantly, bypassing standard processing queues for 60-second delivery.
+                </p>
+              </div>
+
+              {/* Global */}
+              <div className="p-6 rounded-2xl glass-card border border-white/10 hover:border-brand/20 transition-all duration-300 hover:scale-[1.02] flex flex-col h-full group">
+                <div className="w-12 h-12 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-xl text-brand mb-5 group-hover:scale-110 transition-transform">
+                  🌍
+                </div>
+                <h3 className="font-bold text-white mb-2 text-sm sm:text-base">Global Activation</h3>
+                <p className="text-xs text-neutral-400 leading-relaxed">
+                  Play from anywhere in the world. No regional locks, VPN workarounds, or complicated activation setups required.
                 </p>
               </div>
             </div>
 
             {/* Security Seals & Accepted Cryptos */}
-            <div className="mt-16 py-8 px-8 rounded-3xl bg-dark-2/30 border border-white/5 flex flex-col lg:flex-row items-center justify-between gap-8 relative overflow-hidden">
+            <div className="mt-10 py-8 px-8 rounded-3xl bg-dark-2/30 border border-white/5 flex flex-col lg:flex-row items-center justify-between gap-8 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
               
               <div className="flex flex-col items-center lg:items-start gap-1.5 relative z-10">
@@ -864,8 +879,8 @@ export default function Home() {
           </section>
 
           {/* How it Works Roadmap */}
-          <section className="max-w-5xl mx-auto px-6 py-20 relative z-10 border-t border-white/5 mt-12">
-            <div className="text-center mb-16">
+          <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12 relative z-10 border-t border-white/5 mt-6">
+            <div className="text-center mb-8">
               <h2 className="text-3xl font-extrabold tracking-tight">How Automated Delivery Works</h2>
               <p className="text-neutral-400 text-sm mt-3">Simple 3-step blockchain acquisition pipeline.</p>
             </div>
@@ -906,8 +921,8 @@ export default function Home() {
           </section>
 
           {/* FAQ Accordions Section */}
-          <section id="faq" className="max-w-3xl mx-auto px-6 py-12 relative z-10 border-t border-white/5">
-            <div className="text-center mb-16">
+          <section id="faq" className="max-w-3xl mx-auto px-4 sm:px-6 py-10 relative z-10 border-t border-white/5 mt-6">
+            <div className="text-center mb-8">
               <h2 className="text-3xl font-extrabold tracking-tight">Frequently Asked Questions</h2>
               <p className="text-neutral-400 text-xs mt-3">Everything you need to know about keys and checkout.</p>
             </div>
@@ -951,13 +966,13 @@ export default function Home() {
           </section>
 
           {/* Customer Testimonials Reviews */}
-          <section className="max-w-5xl mx-auto px-6 py-20 relative z-10 border-t border-white/5">
-            <div className="text-center mb-16">
+          <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12 relative z-10 border-t border-white/5 mt-6">
+            <div className="text-center mb-8">
               <h2 className="text-3xl font-extrabold tracking-tight">Verified Buyer Testimonials</h2>
               <p className="text-neutral-400 text-xs mt-3">Real reviews from our awesome global gaming community.</p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
                 { name: "Sébastien K.", location: "France", text: "I was extremely skeptical at first because of the crypto requirement, but the checkout was brilliant! Clicked 'Verify' and the key showed up literally 45 seconds later. Verified on my Microsoft account and installing the game right now. 10/10!", stars: "★★★★★", date: "Yesterday" },
                 { name: "Markus D.", location: "Germany", text: "Minecraft bulk discounts are real. Transferred LTC from my Binance account, got the confirmation ticker within 2 minutes, and copied my Java retail code. Super smooth layout and absolutely trustworthy platform.", stars: "★★★★★", date: "3 days ago" },
@@ -1000,15 +1015,15 @@ export default function Home() {
       )}
 
       {/* Footer */}
-      <footer className="mt-20 border-t border-white/5 py-12 text-center text-xs sm:text-sm text-neutral-500">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <footer className="mt-12 border-t border-white/5 py-10 text-center text-xs sm:text-sm text-neutral-500 pb-28 md:pb-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex flex-col items-center md:items-start gap-1">
             <div className="font-extrabold text-base tracking-tight text-white flex items-center gap-2">
               <img src={logoImg} alt="CJMC Logo" className="w-6 h-6 rounded-md object-cover border border-white/10" />
               <span>CJ<span className="text-brand">MC</span></span>
             </div>
             <p className="text-[11px] text-neutral-600 mt-1">© 2026 CJMC. All rights reserved. Sourced wholesales.</p>
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-2 gap-y-1 text-[9px] text-neutral-600 mt-3 md:mt-2 select-none">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-2 gap-y-1 text-[9px] text-neutral-600 mt-3 md:mt-2 select-none opacity-40 hover:opacity-100 transition-opacity duration-300">
               <a href="https://www.flaticon.com/free-icons/cryptocurrency" target="_blank" rel="noopener noreferrer" title="cryptocurrency icons" className="hover:text-brand transition-colors">Cryptocurrency icons created by Freepik - Flaticon</a>
               <span className="text-neutral-700 hidden sm:inline">•</span>
               <a href="https://www.flaticon.com/free-icons/usdc" target="_blank" rel="noopener noreferrer" title="usdc icons" className="hover:text-brand transition-colors">Usdc icons created by bouzix - Flaticon</a>
@@ -1044,6 +1059,61 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Mobile Sticky Bottom Navigation Bar */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-dark/80 backdrop-blur-xl border-t border-white/10 flex justify-around items-center py-3.5 px-4 shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+        <button
+          onClick={() => setCurrentView('store')}
+          className={`flex flex-col items-center gap-1 cursor-pointer transition-all ${
+            currentView === 'store' ? 'text-brand scale-110' : 'text-neutral-400 hover:text-white'
+          }`}
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+          <span className="text-[10px] font-bold">Store</span>
+        </button>
+
+        <button
+          onClick={() => setCurrentView('terms')}
+          className={`flex flex-col items-center gap-1 cursor-pointer transition-all ${
+            currentView === 'terms' ? 'text-brand scale-110' : 'text-neutral-400 hover:text-white'
+          }`}
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span className="text-[10px] font-bold">Terms</span>
+        </button>
+
+        <button
+          onClick={() => setCurrentView('contact')}
+          className={`flex flex-col items-center gap-1 cursor-pointer transition-all ${
+            currentView === 'contact' ? 'text-brand scale-110' : 'text-neutral-400 hover:text-white'
+          }`}
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <span className="text-[10px] font-bold">Support Desk</span>
+        </button>
+
+        <button
+          onClick={() => {
+            setCurrentView('store');
+            setTimeout(() => {
+              const el = document.getElementById('faq');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+          }}
+          className="flex flex-col items-center gap-1 cursor-pointer transition-all text-neutral-400 hover:text-white"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span className="text-[10px] font-bold">FAQ</span>
+        </button>
+      </div>
 
       {/* Floating Sales Notification Ticker (High-fidelity Shopify-style Widget) */}
       <AnimatePresence>

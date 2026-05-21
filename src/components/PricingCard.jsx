@@ -30,10 +30,10 @@ export default function PricingCard({ title, price, features, isPopular, onAddTo
     <motion.div
       whileHover={{ y: -6, scale: 1.01 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className={`relative p-8 rounded-2xl glass-card flex flex-col h-full overflow-hidden ${
+      className={`relative p-8 rounded-2xl glass-card flex flex-col h-full overflow-hidden border ${
         isPopular 
-          ? 'border-brand/30 shadow-[0_0_40px_rgba(14,165,233,0.08)] bg-gradient-to-b from-dark-3/60 to-dark-2/60' 
-          : 'border-white/5 bg-dark-2/45'
+          ? 'border-brand/40 shadow-[0_0_40px_rgba(99,102,241,0.15)]' 
+          : 'border-white/10'
       }`}
     >
       {/* Decorative Glow */}

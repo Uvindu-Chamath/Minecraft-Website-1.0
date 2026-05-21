@@ -3,7 +3,7 @@ import Button from './Button';
 
 export default function Hero({ onBuyKey, onBuyAccount }) {
   return (
-    <section className="relative pt-32 pb-20 lg:pt-44 lg:pb-24 overflow-hidden flex flex-col items-center justify-center text-center px-6">
+    <section className="relative pt-24 pb-12 lg:pt-32 lg:pb-16 overflow-hidden flex flex-col items-center justify-center text-center px-6">
       {/* Background glow effects */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-[600px] bg-brand/10 blur-[130px] rounded-full pointer-events-none animate-pulse-glow" />
       <div className="absolute top-10 right-10 w-[400px] h-[400px] bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none" />
@@ -19,7 +19,7 @@ export default function Hero({ onBuyKey, onBuyAccount }) {
         className="relative max-w-4xl mx-auto z-10"
       >
         {/* Dynamic Trust Badge Header */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass border-white/5 text-xs font-semibold tracking-wide mb-8 shadow-sm">
+        <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass border-white/5 text-xs font-semibold tracking-wide mb-6 shadow-sm">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -31,19 +31,19 @@ export default function Hero({ onBuyKey, onBuyAccount }) {
           </span>
         </div>
         
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-[1.1] font-sans">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-4 leading-[1.1] font-sans">
           The Cheapest Official <br/>
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand via-sky-300 to-emerald-400">
             Minecraft Keys & Accounts
           </span>
         </h1>
         
-        <p className="text-base sm:text-lg md:text-xl text-neutral-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-base sm:text-lg md:text-xl text-neutral-400 mb-6 max-w-2xl mx-auto leading-relaxed">
           Stop paying retail markup. Grab authentic, permanent full-access Minecraft credentials at the absolute lowest price online. Backed by a lifetime warranty with fully automated <strong className="text-brand font-extrabold">Instant Delivery</strong> in under 60 seconds.
         </p>
 
         {/* Call to Actions */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8 max-w-md sm:max-w-none mx-auto w-full px-4">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 max-w-md sm:max-w-none mx-auto w-full px-4">
           <Button variant="glow" onClick={onBuyKey} className="w-full sm:w-auto px-8 py-3.5 text-base border-emerald-400/20">
             <span className="text-lg">🔑</span> Buy Official License Key
           </Button>

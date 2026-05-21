@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useSpring, useTransform } from 'framer-motion';
 import Hero from '../components/Hero';
 import PricingCard from '../components/PricingCard';
 import PaymentModal from '../components/PaymentModal';
 import Toast from '../components/Toast';
+import AnimatedCounter from '../components/AnimatedCounter';
 import logoImg from '../assets/logo.png';
 import bitcoinImg from '../assets/bitcoin.png';
 import ethereumImg from '../assets/ethereum.png';
@@ -444,8 +445,69 @@ export default function Home() {
   const [toastVisible, setToastVisible] = useState(false);
   const [currentView, setCurrentView] = useState('store');
 
+  // Premium Animation Hooks and States
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+  const [activeSection, setActiveSection] = useState('hero');
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  // Animation variants for staggered entries
+  const staggerContainer = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.12
+      }
+    }
+  };
+
+  const staggerCard = {
+    hidden: { opacity: 0, y: 25 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
+    }
+  };
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [currentView]);
+
+  useEffect(() => {
+    if (currentView !== 'store') return;
+
+    const handleScroll = () => {
+      // 1. Scroll-Spy active section
+      const sections = ['hero', 'store', 'features', 'how-it-works', 'faq', 'testimonials'];
+      const scrollPosition = window.scrollY + window.innerHeight / 3;
+
+      for (const section of sections) {
+        const el = document.getElementById(section);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(section);
+          }
+        }
+      }
+
+      // 2. Back-to-top button visibility
+      if (window.scrollY > 300) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [currentView]);
 
   useEffect(() => {
@@ -616,6 +678,13 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-dark text-white selection:bg-brand/30 selection:text-white pb-24 relative overflow-x-hidden">
       <FloatingBlocks />
+      
+      {/* Sleek Gradient Scroll Progress Bar */}
+      <motion.div 
+        className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-brand via-sky-400 to-emerald-400 z-[100] origin-left"
+        style={{ scaleX }}
+      />
+
       {/* Top Banner Alert */}
       <div className="w-full bg-gradient-to-r from-brand/20 via-sky-600/30 to-emerald-500/20 border-b border-sky-500/10 py-2.5 text-center text-xs font-semibold tracking-wider text-sky-200">
         ⚡ PROMOTION: Bulk Wholesale Clearance Slashed by 45%. Secure Crypto Checkout Enforced. Use promo code CJMC20 inside cart!
@@ -625,36 +694,125 @@ export default function Home() {
       <nav className="sticky top-0 w-full z-40 bg-dark/70 backdrop-blur-lg border-b border-white/5">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div 
-            onClick={() => setCurrentView('store')} 
+            onClick={() => {
+              setCurrentView('store');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }} 
             className="font-extrabold text-xl tracking-tight flex items-center gap-2 cursor-pointer select-none"
           >
             <img src={logoImg} alt="CJMC Logo" className="w-8 h-8 rounded-lg shadow-lg shadow-brand/20 object-cover border border-white/10" />
             <span className="text-white">CJ<span className="text-brand">MC</span></span>
           </div>
           <div className="flex items-center gap-4 text-sm">
-            <div className="hidden md:flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-5">
               <button 
-                onClick={() => setCurrentView('store')}
-                className={`font-semibold transition-all cursor-pointer ${currentView === 'store' ? 'text-brand' : 'text-neutral-400 hover:text-white'}`}
+                onClick={() => {
+                  setCurrentView('store');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className={`font-semibold transition-all cursor-pointer relative py-1 ${
+                  currentView === 'store' && activeSection === 'hero' ? 'text-brand font-bold' : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                Home
+                {currentView === 'store' && activeSection === 'hero' && (
+                  <motion.span layoutId="nav-underline" className="absolute bottom-0 left-0 right-0 h-[2px] bg-brand rounded-full" />
+                )}
+              </button>
+
+              <button 
+                onClick={() => {
+                  setCurrentView('store');
+                  setTimeout(() => {
+                    document.getElementById('store')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }, 50);
+                }}
+                className={`font-semibold transition-all cursor-pointer relative py-1 ${
+                  currentView === 'store' && activeSection === 'store' ? 'text-brand font-bold' : 'text-neutral-400 hover:text-white'
+                }`}
               >
                 Store
+                {currentView === 'store' && activeSection === 'store' && (
+                  <motion.span layoutId="nav-underline" className="absolute bottom-0 left-0 right-0 h-[2px] bg-brand rounded-full" />
+                )}
               </button>
+
+              <button 
+                onClick={() => {
+                  setCurrentView('store');
+                  setTimeout(() => {
+                    document.getElementById('features')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }, 50);
+                }}
+                className={`font-semibold transition-all cursor-pointer relative py-1 ${
+                  currentView === 'store' && activeSection === 'features' ? 'text-brand font-bold' : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                Features
+                {currentView === 'store' && activeSection === 'features' && (
+                  <motion.span layoutId="nav-underline" className="absolute bottom-0 left-0 right-0 h-[2px] bg-brand rounded-full" />
+                )}
+              </button>
+
+              <button 
+                onClick={() => {
+                  setCurrentView('store');
+                  setTimeout(() => {
+                    document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }, 50);
+                }}
+                className={`font-semibold transition-all cursor-pointer relative py-1 ${
+                  currentView === 'store' && activeSection === 'faq' ? 'text-brand font-bold' : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                FAQ
+                {currentView === 'store' && activeSection === 'faq' && (
+                  <motion.span layoutId="nav-underline" className="absolute bottom-0 left-0 right-0 h-[2px] bg-brand rounded-full" />
+                )}
+              </button>
+
+              <button 
+                onClick={() => {
+                  setCurrentView('store');
+                  setTimeout(() => {
+                    document.getElementById('testimonials')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }, 50);
+                }}
+                className={`font-semibold transition-all cursor-pointer relative py-1 ${
+                  currentView === 'store' && activeSection === 'testimonials' ? 'text-brand font-bold' : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                Reviews
+                {currentView === 'store' && activeSection === 'testimonials' && (
+                  <motion.span layoutId="nav-underline" className="absolute bottom-0 left-0 right-0 h-[2px] bg-brand rounded-full" />
+                )}
+              </button>
+
+              <div className="h-4 w-px bg-white/10 mx-1" />
+
               <button 
                 onClick={() => setCurrentView('terms')}
-                className={`font-semibold transition-all cursor-pointer ${currentView === 'terms' ? 'text-brand' : 'text-neutral-400 hover:text-white'}`}
+                className={`font-semibold transition-all cursor-pointer relative py-1 ${
+                  currentView === 'terms' ? 'text-brand font-bold' : 'text-neutral-400 hover:text-white'
+                }`}
               >
                 Terms
+                {currentView === 'terms' && (
+                  <motion.span layoutId="nav-underline" className="absolute bottom-0 left-0 right-0 h-[2px] bg-brand rounded-full" />
+                )}
               </button>
+
               <button 
                 onClick={() => setCurrentView('contact')}
-                className={`font-semibold transition-all cursor-pointer ${currentView === 'contact' ? 'text-brand' : 'text-neutral-400 hover:text-white'}`}
+                className={`font-semibold transition-all cursor-pointer relative py-1 ${
+                  currentView === 'contact' ? 'text-brand font-bold' : 'text-neutral-400 hover:text-white'
+                }`}
               >
                 Support Desk
+                {currentView === 'contact' && (
+                  <motion.span layoutId="nav-underline" className="absolute bottom-0 left-0 right-0 h-[2px] bg-brand rounded-full" />
+                )}
               </button>
-              <a href="#faq" onClick={() => setCurrentView('store')} className="text-neutral-400 hover:text-white transition-colors font-semibold">
-                FAQ
-              </a>
-              <div className="h-4 w-px bg-white/10" />
             </div>
             
             <div className="flex items-center gap-1.5 text-emerald-400 font-semibold bg-emerald-500/10 border border-emerald-500/25 px-2.5 py-1 rounded-md text-xs">
@@ -709,7 +867,7 @@ export default function Home() {
               </div>
               <span className="hidden sm:inline text-neutral-700">|</span>
               <p className="text-xs sm:text-sm text-neutral-400 font-medium">
-                Based on <strong className="text-neutral-300">8,421+ independent shopper reviews</strong> with a 4.9/5 satisfaction index.
+                Based on <strong className="text-neutral-300"><AnimatedCounter value={8421} suffix="+" /> independent shopper reviews</strong> with a 4.9/5 satisfaction index.
               </p>
             </div>
           </div>
@@ -720,7 +878,14 @@ export default function Home() {
           />
 
           {/* Pricing Cards Section */}
-          <section className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 py-10">
+          <motion.section 
+            id="store"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10 py-10"
+          >
             <div className="text-center mb-8">
               <h2 className="text-3xl md:text-4xl font-extrabold mb-4 tracking-tight">Transparent Direct Pricing</h2>
               <p className="text-neutral-400 max-w-xl mx-auto text-sm sm:text-base">
@@ -728,40 +893,57 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-              <PricingCard 
-                title="Minecraft Key"
-                price="18"
-                isPopular={true}
-                features={[
-                  "Official Minecraft Java & Bedrock Key",
-                  "Redeemable on official Microsoft portal",
-                  "Linked forever to your personal email",
-                  "100% Automated Instant Key delivery",
-                  "Permanent Lifetime warranty protection"
-                ]}
-                onAddToCart={(qty) => handleAddToCart('key', qty)}
-                onBuyNow={(qty) => handleBuyNow('key', qty)}
-              />
-              <PricingCard 
-                title="Minecraft Account"
-                price="15"
-                isPopular={false}
-                features={[
-                  "Full email access included",
-                  "Change password, skins, and usernames",
-                  "Instant account credentials display",
-                  "Completely private & unbanned",
-                  "Permanent replacement guarantee"
-                ]}
-                onAddToCart={(qty) => handleAddToCart('account', qty)}
-                onBuyNow={(qty) => handleBuyNow('account', qty)}
-              />
-            </div>
-          </section>
+            <motion.div 
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
+              className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto"
+            >
+              <motion.div variants={staggerCard} className="h-full">
+                <PricingCard 
+                  title="Minecraft Key"
+                  price="18"
+                  isPopular={true}
+                  features={[
+                    "Official Minecraft Java & Bedrock Key",
+                    "Redeemable on official Microsoft portal",
+                    "Linked forever to your personal email",
+                    "100% Automated Instant Key delivery",
+                    "Permanent Lifetime warranty protection"
+                  ]}
+                  onAddToCart={(qty) => handleAddToCart('key', qty)}
+                  onBuyNow={(qty) => handleBuyNow('key', qty)}
+                />
+              </motion.div>
+              <motion.div variants={staggerCard} className="h-full">
+                <PricingCard 
+                  title="Minecraft Account"
+                  price="15"
+                  isPopular={false}
+                  features={[
+                    "Full email access included",
+                    "Change password, skins, and usernames",
+                    "Instant account credentials display",
+                    "Completely private & unbanned",
+                    "Permanent replacement guarantee"
+                  ]}
+                  onAddToCart={(qty) => handleAddToCart('account', qty)}
+                  onBuyNow={(qty) => handleBuyNow('account', qty)}
+                />
+              </motion.div>
+            </motion.div>
+          </motion.section>
 
           {/* Why Choose Us & Trust Badges Section */}
-          <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12 relative z-10 border-t border-white/5 mt-6">
+          <motion.section 
+            id="features"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="max-w-6xl mx-auto px-4 sm:px-6 py-12 relative z-10 border-t border-white/5 mt-6"
+          >
             <div className="text-center mb-8">
               <span className="text-xs font-extrabold text-brand uppercase tracking-widest bg-brand/10 border border-brand/20 px-3 py-1.5 rounded-full">
                 Value Proposition
@@ -769,9 +951,18 @@ export default function Home() {
               <h2 className="text-3xl font-extrabold text-white mt-4 tracking-tight">Why Gamers Trust CJMC</h2>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <motion.div 
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+            >
               {/* Security */}
-              <div className="p-6 rounded-2xl glass-card border border-white/10 hover:border-brand/20 transition-all duration-300 hover:scale-[1.02] flex flex-col h-full group">
+              <motion.div 
+                variants={staggerCard}
+                className="p-6 rounded-2xl glass-card border border-white/10 hover:border-brand/20 transition-all duration-300 hover:scale-[1.02] flex flex-col h-full group"
+              >
                 <div className="w-12 h-12 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-xl text-brand mb-5 group-hover:scale-110 transition-transform">
                   🛡️
                 </div>
@@ -779,10 +970,13 @@ export default function Home() {
                 <p className="text-xs text-neutral-400 leading-relaxed">
                   Every key and account is an authentic Microsoft retail license activation. Rest assured your Minecraft access is fully official.
                 </p>
-              </div>
+              </motion.div>
 
               {/* Warranty */}
-              <div className="p-6 rounded-2xl glass-card border border-white/10 hover:border-brand/20 transition-all duration-300 hover:scale-[1.02] flex flex-col h-full group">
+              <motion.div 
+                variants={staggerCard}
+                className="p-6 rounded-2xl glass-card border border-white/10 hover:border-brand/20 transition-all duration-300 hover:scale-[1.02] flex flex-col h-full group"
+              >
                 <div className="w-12 h-12 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-xl text-brand mb-5 group-hover:scale-110 transition-transform">
                   ♾️
                 </div>
@@ -790,10 +984,13 @@ export default function Home() {
                 <p className="text-xs text-neutral-400 leading-relaxed">
                   Enjoy absolute peace of mind. Every purchase is backed by our lifetime warranty with instant replacements for any technical faults.
                 </p>
-              </div>
+              </motion.div>
 
               {/* Speed */}
-              <div className="p-6 rounded-2xl glass-card border border-white/10 hover:border-brand/20 transition-all duration-300 hover:scale-[1.02] flex flex-col h-full group">
+              <motion.div 
+                variants={staggerCard}
+                className="p-6 rounded-2xl glass-card border border-white/10 hover:border-brand/20 transition-all duration-300 hover:scale-[1.02] flex flex-col h-full group"
+              >
                 <div className="w-12 h-12 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-xl text-brand mb-5 group-hover:scale-110 transition-transform">
                   ⚡
                 </div>
@@ -801,10 +998,13 @@ export default function Home() {
                 <p className="text-xs text-neutral-400 leading-relaxed">
                   Our automated mempool nodes detect payments instantly, bypassing standard processing queues for 60-second delivery.
                 </p>
-              </div>
+              </motion.div>
 
               {/* Global */}
-              <div className="p-6 rounded-2xl glass-card border border-white/10 hover:border-brand/20 transition-all duration-300 hover:scale-[1.02] flex flex-col h-full group">
+              <motion.div 
+                variants={staggerCard}
+                className="p-6 rounded-2xl glass-card border border-white/10 hover:border-brand/20 transition-all duration-300 hover:scale-[1.02] flex flex-col h-full group"
+              >
                 <div className="w-12 h-12 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center text-xl text-brand mb-5 group-hover:scale-110 transition-transform">
                   🌍
                 </div>
@@ -812,8 +1012,8 @@ export default function Home() {
                 <p className="text-xs text-neutral-400 leading-relaxed">
                   Play from anywhere in the world. No regional locks, VPN workarounds, or complicated activation setups required.
                 </p>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* Security Seals & Accepted Cryptos */}
             <div className="mt-10 py-8 px-8 rounded-3xl bg-dark-2/30 border border-white/5 flex flex-col lg:flex-row items-center justify-between gap-8 relative overflow-hidden">
@@ -839,7 +1039,7 @@ export default function Home() {
                 </div>
                 <div className="flex items-center gap-3 text-xs font-semibold text-white">
                   <span className="flex items-center gap-1 text-emerald-400">
-                    🟢 12 Nodes Active
+                    🟢 <AnimatedCounter value={12} /> Nodes Active
                   </span>
                   <span className="text-white/20">|</span>
                   <span className="text-neutral-300">Scan: 24s Avg</span>
@@ -876,19 +1076,32 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </section>
+          </motion.section>
 
           {/* How it Works Roadmap */}
-          <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12 relative z-10 border-t border-white/5 mt-6">
+          <motion.section 
+            id="how-it-works"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="max-w-6xl mx-auto px-4 sm:px-6 py-12 relative z-10 border-t border-white/5 mt-6"
+          >
             <div className="text-center mb-8">
               <h2 className="text-3xl font-extrabold tracking-tight">How Automated Delivery Works</h2>
               <p className="text-neutral-400 text-sm mt-3">Simple 3-step blockchain acquisition pipeline.</p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8 relative">
+            <motion.div 
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
+              className="grid md:grid-cols-3 gap-8 relative"
+            >
               <div className="hidden md:block absolute top-[28px] left-[15%] right-[15%] h-0.5 bg-gradient-to-r from-brand/20 via-emerald-500/20 to-brand/20 z-0" />
               
-              <div className="text-center relative z-10">
+              <motion.div variants={staggerCard} className="text-center relative z-10">
                 <div className="w-14 h-14 rounded-full bg-dark-2 border border-brand/20 flex items-center justify-center font-bold text-brand mx-auto mb-6 shadow-md shadow-brand/5 text-lg">
                   1
                 </div>
@@ -896,9 +1109,9 @@ export default function Home() {
                 <p className="text-xs text-neutral-400 max-w-xs mx-auto leading-relaxed">
                   Add your keys or accounts to the shopping cart, adjust quantities, apply discounts, and configure checkout.
                 </p>
-              </div>
+              </motion.div>
 
-              <div className="text-center relative z-10">
+              <motion.div variants={staggerCard} className="text-center relative z-10">
                 <div className="w-14 h-14 rounded-full bg-dark-2 border border-emerald-500/20 flex items-center justify-center font-bold text-emerald-400 mx-auto mb-6 shadow-md shadow-emerald-500/5 text-lg">
                   2
                 </div>
@@ -906,9 +1119,9 @@ export default function Home() {
                 <p className="text-xs text-neutral-400 max-w-xs mx-auto leading-relaxed">
                   Transfer funds directly to the selected crypto address. Submitting your TXID hooks our validator scanner.
                 </p>
-              </div>
+              </motion.div>
 
-              <div className="text-center relative z-10">
+              <motion.div variants={staggerCard} className="text-center relative z-10">
                 <div className="w-14 h-14 rounded-full bg-dark-2 border border-brand/20 flex items-center justify-center font-bold text-brand mx-auto mb-6 shadow-md shadow-brand/5 text-lg">
                   3
                 </div>
@@ -916,12 +1129,19 @@ export default function Home() {
                 <p className="text-xs text-neutral-400 max-w-xs mx-auto leading-relaxed">
                   Our node scans the ledger block indexes using your hash, confirms confirmations, and decrypts your keys on screen.
                 </p>
-              </div>
-            </div>
-          </section>
+              </motion.div>
+            </motion.div>
+          </motion.section>
 
           {/* FAQ Accordions Section */}
-          <section id="faq" className="max-w-3xl mx-auto px-4 sm:px-6 py-10 relative z-10 border-t border-white/5 mt-6">
+          <motion.section 
+            id="faq" 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="max-w-3xl mx-auto px-4 sm:px-6 py-10 relative z-10 border-t border-white/5 mt-6"
+          >
             <div className="text-center mb-8">
               <h2 className="text-3xl font-extrabold tracking-tight">Frequently Asked Questions</h2>
               <p className="text-neutral-400 text-xs mt-3">Everything you need to know about keys and checkout.</p>
@@ -963,22 +1183,35 @@ export default function Home() {
                 );
               })}
             </div>
-          </section>
+          </motion.section>
 
           {/* Customer Testimonials Reviews */}
-          <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12 relative z-10 border-t border-white/5 mt-6">
+          <motion.section 
+            id="testimonials"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="max-w-6xl mx-auto px-4 sm:px-6 py-12 relative z-10 border-t border-white/5 mt-6"
+          >
             <div className="text-center mb-8">
               <h2 className="text-3xl font-extrabold tracking-tight">Verified Buyer Testimonials</h2>
               <p className="text-neutral-400 text-xs mt-3">Real reviews from our awesome global gaming community.</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <motion.div 
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
               {[
                 { name: "Sébastien K.", location: "France", text: "I was extremely skeptical at first because of the crypto requirement, but the checkout was brilliant! Clicked 'Verify' and the key showed up literally 45 seconds later. Verified on my Microsoft account and installing the game right now. 10/10!", stars: "★★★★★", date: "Yesterday" },
                 { name: "Markus D.", location: "Germany", text: "Minecraft bulk discounts are real. Transferred LTC from my Binance account, got the confirmation ticker within 2 minutes, and copied my Java retail code. Super smooth layout and absolutely trustworthy platform.", stars: "★★★★★", date: "3 days ago" },
                 { name: "Sarah L.", location: "United States", text: "Lifetime warranty sold me. I purchased a full access account, had a small username change question, and support resolved it on WhatsApp within minutes. Genuine details, fully unbanned email, highly recommended!", stars: "★★★★★", date: "1 week ago" }
               ].map((rev, idx) => (
-                <div key={idx} className="p-6 rounded-2xl bg-dark-2/45 border border-white/5 flex flex-col justify-between">
+                <motion.div key={idx} variants={staggerCard} className="p-6 rounded-2xl bg-dark-2/45 border border-white/5 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center justify-between mb-4">
                       <span className="text-amber-400 text-sm font-bold">{rev.stars}</span>
@@ -1000,10 +1233,10 @@ export default function Home() {
                       <p className="text-[10px] text-neutral-500">{rev.location}</p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
-          </section>
+            </motion.div>
+          </motion.section>
         </>
       )}
 
@@ -1462,6 +1695,48 @@ export default function Home() {
         isVisible={toastVisible}
         onClose={() => setToastVisible(false)}
       />
+
+      {/* Floating Circular Scroll-to-Top Button */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 10 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="fixed bottom-24 right-6 z-50 w-11 h-11 rounded-full bg-dark-2/80 border border-white/10 hover:border-brand/40 text-neutral-300 hover:text-white flex items-center justify-center cursor-pointer shadow-2xl backdrop-blur-md select-none transition-colors"
+            title="Scroll to Top"
+          >
+            {/* SVG Progress Ring */}
+            <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 36 36">
+              <circle
+                className="text-white/[0.03]"
+                strokeWidth="2.5"
+                stroke="currentColor"
+                fill="none"
+                cx="18"
+                cy="18"
+                r="16"
+              />
+              <motion.circle
+                className="text-brand"
+                strokeWidth="2.5"
+                strokeDasharray="100"
+                style={{ pathLength: scrollYProgress }}
+                strokeLinecap="round"
+                stroke="currentColor"
+                fill="none"
+                cx="18"
+                cy="18"
+                r="16"
+              />
+            </svg>
+            <span className="text-sm font-bold relative z-10">↑</span>
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

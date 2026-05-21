@@ -583,7 +583,7 @@ export default function Home() {
           {
             id: productId,
             name: productId === 'key' ? 'Minecraft Key' : 'Minecraft Account',
-            price: productId === 'key' ? 18 : 15,
+            price: productId === 'key' ? 15 : 11,
             quantity: qty
           }
         ];
@@ -606,7 +606,7 @@ export default function Home() {
           {
             id: productId,
             name: productId === 'key' ? 'Minecraft Key' : 'Minecraft Account',
-            price: productId === 'key' ? 18 : 15,
+            price: productId === 'key' ? 15 : 11,
             quantity: qty
           }
         ];
@@ -903,7 +903,7 @@ export default function Home() {
               <motion.div variants={staggerCard} className="h-full">
                 <PricingCard 
                   title="Minecraft Key"
-                  price="18"
+                  price="15"
                   isPopular={true}
                   features={[
                     "Official Minecraft Java & Bedrock Key",
@@ -919,7 +919,7 @@ export default function Home() {
               <motion.div variants={staggerCard} className="h-full">
                 <PricingCard 
                   title="Minecraft Account"
-                  price="15"
+                  price="11"
                   isPopular={false}
                   features={[
                     "Full email access included",
